@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyboardInput implements KeyListener {
 
-	private final Map<Integer, Boolean> currentStates = new ConcurrentHashMap<>();
+	private final Map<Integer, Boolean> currentStates = new ConcurrentHashMap<Integer, Boolean>();
 
 	public KeyboardInput() {
 		currentStates.put(KeyEvent.VK_LEFT, Boolean.FALSE);
