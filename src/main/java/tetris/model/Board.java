@@ -40,10 +40,8 @@ public class Board {
     private int lines = 0;
 
     public Board() {
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                board[x][y] = BoardCell.getEmptyCell();
-            }
+        for (int x = 0; x < WIDTH; x++) {
+            board[x] = BoardCell.getEmptyArray(20);
         }
     }
 
@@ -75,12 +73,10 @@ public class Board {
     public void removeFullRows() {
         BoardCell[][] boardX = new BoardCell[WIDTH][HEIGHT];
 
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                boardX[x][y] = BoardCell.getEmptyCell();
-            }
+        for (int x = 0; x < WIDTH; x++) {
+            boardX[x] = BoardCell.getEmptyArray(20);
         }
-
+        
         int full = 0;
         for (int y = 0; y < HEIGHT; y++) {
             if (!isRowFull(y)) {

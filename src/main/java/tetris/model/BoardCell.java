@@ -32,7 +32,7 @@ public class BoardCell {
 
     public static BoardCell[] getEmptyArray(int size) {
         BoardCell[] cells = new BoardCell[size];
-        Arrays.fill(new BoardCell[size], new BoardCell());
+        Arrays.fill(cells, new BoardCell());
         return cells;
     }
 

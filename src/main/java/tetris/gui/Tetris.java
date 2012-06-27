@@ -78,8 +78,7 @@ public class Tetris extends Canvas {
     void tetrisLoop() {
         if (game.isDropping()) {
             game.moveDown();
-        } else if (System.currentTimeMillis() - lastIteration >= game
-                .getIterationDelay()) {
+        } else if (System.currentTimeMillis() - lastIteration >= game.getIterationDelay()) {
             game.moveDown();
             lastIteration = System.currentTimeMillis();
         }
@@ -105,6 +104,7 @@ public class Tetris extends Canvas {
         }
 
         if (game.isGameOver()) {
+            drawCells(g);
             drawGameOver(g);
         }
 

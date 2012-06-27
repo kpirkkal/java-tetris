@@ -11,13 +11,8 @@ public class Game {
     private boolean dropping = false;
     private boolean gameOver = false;
 
-    // level 1-10
-    private int freeFallIterations = 0;
+    private int freeFallIterations;
     private int totalScore;
-
-    public enum GameState {
-        PLAYING, PAUSED, GAME_OVER
-    }
 
     public BoardCell[][] getBoardWithPiece() {
         return board.getBoardWithPiece(currentPiece);
