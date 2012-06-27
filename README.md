@@ -2,7 +2,7 @@ java-tetris
 ===========
 
 
-Java-tetris is a basic implementation of the Standard Tetris specification [1].
+Java-tetris is a basic implementation of the [Standard Tetris specification] [1].
 
 
 Stuff from standard
@@ -18,8 +18,10 @@ Stuff from standard
 * Calculation of falling iteration delay
 
 
-[1] http://colinfahey.com/tetris/tetris.html
+[1]: http://colinfahey.com/tetris/tetris.html "Standard Tetris specification"
 
+
+Tetris is a trademark of The Tetris Company, LLC
 
 License
 -------
