@@ -1,26 +1,23 @@
 package tetris.model;
 
-import static junit.framework.Assert.assertTrue;
-
-import java.awt.Point;
-
-import junit.framework.Assert;
-
 import org.junit.Test;
 
-import tetris.model.Piece;
-import tetris.model.PieceType;
+import java.awt.*;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 
 public class PieceTest {
 
     private void assertPoints(Point[] expected, Piece actual) {
-        Assert.assertEquals(expected.length, actual.getPoints().length);
+        assertEquals(expected.length, actual.getPoints().length);
         for (Point e : actual.getPoints()) {
-            assertTrue(containtsPointExactlyOnce(e, expected));
+            assertTrue(containsPointExactlyOnce(e, expected));
         }
     }
 
-    private boolean containtsPointExactlyOnce(Point point, Point[] points) {
+    private boolean containsPointExactlyOnce(Point point, Point[] points) {
         int count = 0;
         for (Point p : points) {
             if (p.x == point.x && p.y == point.y) {
