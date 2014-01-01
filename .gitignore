@@ -1,10 +1,6 @@
-*.class
-*.settings
-.classpath
-.settings/
-.project
-target/**
-# Package Files #
-*.jar
-*.war
-*.ear
+bin
+target
+out
+
+.idea
+java-tetris.iml
