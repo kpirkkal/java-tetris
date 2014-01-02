@@ -22,10 +22,6 @@ public class BoardCell {
         return pieceType;
     }
 
-    public static BoardCell getEmptyCell() {
-        return new BoardCell();
-    }
-
     public static BoardCell getFullCell(PieceType pieceType) {
         return new BoardCell(pieceType);
     }

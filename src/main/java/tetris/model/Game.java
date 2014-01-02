@@ -18,20 +18,8 @@ public class Game {
         return board.getBoardWithPiece(currentPiece);
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
-    public Piece getCurrentPiece() {
-        return currentPiece;
-    }
-
     public Piece getNextPiece() {
         return nextPiece;
-    }
-
-    public void setCurrentPiece(Piece currentPiece) {
-        this.currentPiece = currentPiece;
     }
 
     public long getIterationDelay() {
