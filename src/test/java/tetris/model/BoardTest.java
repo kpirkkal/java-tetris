@@ -1,8 +1,8 @@
 package tetris.model;
 
-import org.junit.Test;
-
 import static junit.framework.Assert.assertTrue;
+
+import org.junit.Test;
 
 public class BoardTest {
 
@@ -12,12 +12,12 @@ public class BoardTest {
     @Test
     public void newBoardIsFullOfEmptyCells() {
         Board board = new Board();
-        
+
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 assertTrue(board.getBoardAt(x, y).isEmpty());
             }
         }
-    }
 
+    }
 }

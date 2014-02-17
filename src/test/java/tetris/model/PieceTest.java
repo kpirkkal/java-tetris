@@ -1,12 +1,11 @@
 package tetris.model;
 
-import org.junit.Test;
-
-import java.awt.*;
-
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertEquals;
 
+import java.awt.Point;
+
+import org.junit.Test;
 
 public class PieceTest {
 
