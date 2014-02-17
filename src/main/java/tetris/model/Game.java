@@ -56,10 +56,6 @@ public class Game {
         playing = true;
     }
 
-    public void stopGame() {
-        playing = false;
-    }
-
     public boolean isPlaying() {
         return playing;
     }

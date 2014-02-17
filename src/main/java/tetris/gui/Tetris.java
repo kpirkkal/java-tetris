@@ -135,7 +135,7 @@ public class Tetris extends Canvas {
         BoardCell[][] cells = game.getBoardCells();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
-                drawBlock(g, boardX + i * 20, boardY + (19 - j) * 20, pieceWidth, getBoardCellColor(cells[i][j]));
+                drawBlock(g, boardX + i * 20, boardY + (19 - j) * 20, getBoardCellColor(cells[i][j]));
             }
         }
     }
@@ -208,7 +208,7 @@ public class Tetris extends Canvas {
 
     private void drawPiecePreview(Graphics2D g, PieceType type) {
         for (Point p : type.getPoints()) {
-            drawBlock(g, 60 + p.x * 20, 380 + (3 - p.y) * 20, pieceWidth, getPieceColor(type));
+            drawBlock(g, 60 + p.x * pieceWidth, 380 + (3 - p.y) * 20, getPieceColor(type));
         }
     }
 
@@ -236,10 +236,10 @@ public class Tetris extends Canvas {
         }
     }
 
-    private void drawBlock(Graphics g, int x, int y, int width, Color color) {
+    private void drawBlock(Graphics g, int x, int y, Color color) {
         g.setColor(color);
-        g.fillRect(x, y, width, width);
-        g.drawRect(x, y, width, width);
+        g.fillRect(x, y, pieceWidth, pieceWidth);
+        g.drawRect(x, y, pieceWidth, pieceWidth);
     }
 
     public static void main(String[] args) {

@@ -8,12 +8,6 @@ public class Piece {
     private final PieceType type;
     private final boolean initialOrientation;
 
-    public Piece(PieceType pieceType, Point[] points) {
-        this.initialOrientation = true;
-        this.type = pieceType;
-        this.points = points;
-    }
-
     private Piece(PieceType pieceType, Point[] points, boolean initial) {
         initialOrientation = initial;
         this.points = points;
@@ -22,11 +16,11 @@ public class Piece {
 
     public static Piece getRandomPiece() {
         PieceType pieceType = PieceType.getRandomPiece();
-        return new Piece(pieceType, pieceType.getPoints());
+        return new Piece(pieceType, pieceType.getPoints(), true);
     }
 
     public static Piece getPiece(PieceType pieceType) {
-        return new Piece(pieceType, pieceType.getPoints());
+        return new Piece(pieceType, pieceType.getPoints(), true);
     }
 
     public PieceType getType() {
@@ -44,10 +38,10 @@ public class Piece {
             if (initialOrientation) {
                 return new Piece(type, rotateRight(points), false);
             } else {
-                return new Piece(type, rotateLeft(points));
+                return new Piece(type, rotateLeft(points), true);
             }
         }
-        return new Piece(type, rotateRight(points));
+        return new Piece(type, rotateRight(points), true);
     }
 
     private Point[] rotateLeft(Point toRotate[]) {
