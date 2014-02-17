@@ -96,6 +96,7 @@ public class Tetris extends Canvas {
     public void draw() {
         Graphics2D g = getGameGraphics();
         drawEmptyBoard(g);
+        drawHelpBox(g);
         drawPiecePreviewBox(g);
 
         if (game.isPlaying()) {
@@ -123,7 +124,7 @@ public class Tetris extends Canvas {
         BoardCell[][] cells = game.getBoardWithPiece();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
-                drawBlock(g, boardX + i * 20, boardY + (19 - j) * 20, pieceWidth, pieceWidth, getBoardCellColor(cells[i][j]));
+                drawBlock(g, boardX + i * 20, boardY + (19 - j) * 20, pieceWidth, getBoardCellColor(cells[i][j]));
             }
         }
     }
@@ -170,16 +171,24 @@ public class Tetris extends Canvas {
     }
 
     private void drawPiecePreviewBox(Graphics2D g) {
-        g.setColor(Color.WHITE);
-        g.drawRect(10, 100, 100, 100);
         g.setFont(new Font("Dialog", Font.PLAIN, 16));
         g.setColor(Color.RED);
-        g.drawString("Next:", 10, 80);
+        g.drawString("Next:", 50, 420);
+    }
+    private void drawHelpBox(Graphics2D g) {
+        g.setFont(new Font("Dialog", Font.PLAIN, 16));
+        g.setColor(Color.RED);
+        g.drawString("H E L P", 50, 140);
+        g.drawString("F1: Pause Game", 10, 160);
+        g.drawString("F2: New Game", 10, 180);
+        g.drawString("UP: Rotate", 10, 200);
+        g.drawString("ARROWS: Move left/right", 10, 220);
+        g.drawString("SPACE: Drop", 10, 240);
     }
 
     private void drawPiecePreview(Graphics2D g, PieceType type) {
         for (Point p : type.getPoints()) {
-            drawBlock(g, 60 + p.x * 20, 80 + (3 - p.y) * 20, pieceWidth, pieceWidth, getPieceColor(type));
+            drawBlock(g, 60 + p.x * 20, 380 + (3 - p.y) * 20, pieceWidth, getPieceColor(type));
         }
     }
 
@@ -207,11 +216,12 @@ public class Tetris extends Canvas {
         }
     }
 
-    private void drawBlock(Graphics g, int x, int y, int width, int height, Color color) {
+    private void drawBlock(Graphics g, int x, int y, int width, Color color) {
         g.setColor(color);
-        g.fillRect(x, y, width, height);
-        g.drawRect(x, y, width, height);
+        g.fillRect(x, y, width, width);
+        g.drawRect(x, y, width, width);
     }
+
 
     public static void main(String[] args) {
         new Tetris().gameLoop();
