@@ -1,12 +1,16 @@
 java-tetris 
 ===========
 
+## About
 
 Java-tetris is a basic implementation of the [Standard Tetris specification] [1].
 
+## Screenshot
 
-Stuff from standard
--------------------
+![Screenshot](images/tetris-screenshot.png)
+
+
+## Stuff from standard
 
 * Board
 * Pieces
@@ -20,10 +24,8 @@ Stuff from standard
 
 [1]: http://colinfahey.com/tetris/tetris.html "Standard Tetris specification"
 
-
 Tetris is a trademark of The Tetris Company, LLC
 
-License
--------
+## License
 
 Apache License, Version 2.0
