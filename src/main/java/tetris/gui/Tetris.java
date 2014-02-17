@@ -22,7 +22,7 @@ import tetris.model.PieceType;
 public class Tetris extends Canvas {
 
     private Game game = new Game();
-    private BufferStrategy strategy;
+    private final BufferStrategy strategy;
 
     private final int boardX = 300;
     private final int boardY = 50;
@@ -31,6 +31,7 @@ public class Tetris extends Canvas {
     private long lastIteration = System.currentTimeMillis();
 
     private static final int pieceWidth = 20;
+
 
     public Tetris() {
         JFrame container = new JFrame("Tetris");
@@ -66,7 +67,13 @@ public class Tetris extends Canvas {
                 game.startGame();
             }
             if (game.isPlaying()) {
-                tetrisLoop();
+
+                if (!game.isPaused()) {
+                    tetrisLoop();
+                }
+                if (keyboard.pauseGame()) {
+                    game.pauseGame();
+                }
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) { }
@@ -102,6 +109,10 @@ public class Tetris extends Canvas {
         if (game.isPlaying()) {
             drawCells(g);
             drawPiecePreview(g, game.getNextPiece().getType());
+
+            if (game.isPaused()) {
+                drawGamePaused(g);
+            }
         }
 
         if (game.isGameOver()) {
@@ -121,7 +132,7 @@ public class Tetris extends Canvas {
     }
 
     private void drawCells(Graphics2D g) {
-        BoardCell[][] cells = game.getBoardWithPiece();
+        BoardCell[][] cells = game.getBoardCells();
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 20; j++) {
                 drawBlock(g, boardX + i * 20, boardY + (19 - j) * 20, pieceWidth, getBoardCellColor(cells[i][j]));
@@ -141,7 +152,7 @@ public class Tetris extends Canvas {
         g.setColor(Color.RED);
         g.drawString(getLevel(), 10, 20);
         g.drawString(getLines(), 10, 40);
-        g.drawString(getScore(), 10, 60);
+        g.drawString(getScore(), 20, 80);
     }
 
     private void drawGameOver(Graphics2D g) {
@@ -150,6 +161,14 @@ public class Tetris extends Canvas {
         g.setColor(Color.RED);
         g.drawString("GAME OVER", 350, 550);
     }
+
+    private void drawGamePaused(Graphics2D g) {
+        Font font = new Font("Dialog", Font.PLAIN, 16);
+        g.setFont(font);
+        g.setColor(Color.YELLOW);
+        g.drawString("GAME PAUSED", 350, 550);
+    }
+
 
     private void drawPlayTetris(Graphics2D g) {
         Font font = new Font("Dialog", Font.PLAIN, 16);
@@ -167,7 +186,7 @@ public class Tetris extends Canvas {
     }
 
     private String getScore() {
-        return String.format("Score: %1s", game.getTotalScore());
+        return String.format("Score     %1s", game.getTotalScore());
     }
 
     private void drawPiecePreviewBox(Graphics2D g) {
@@ -175,6 +194,7 @@ public class Tetris extends Canvas {
         g.setColor(Color.RED);
         g.drawString("Next:", 50, 420);
     }
+
     private void drawHelpBox(Graphics2D g) {
         g.setFont(new Font("Dialog", Font.PLAIN, 16));
         g.setColor(Color.RED);
@@ -201,18 +221,18 @@ public class Tetris extends Canvas {
 
     private Color getPieceColor(PieceType pieceType) {
         switch (pieceType) {
-        case I:
-            return Color.RED;
-        case J:
-            return Color.GRAY;
-        case L:
-            return Color.CYAN;
-        case O:
-            return Color.BLUE;
-        case S:
-            return Color.GREEN;
-        default:
-            return Color.MAGENTA;
+            case I:
+                return Color.RED;
+            case J:
+                return Color.GRAY;
+            case L:
+                return Color.CYAN;
+            case O:
+                return Color.BLUE;
+            case S:
+                return Color.GREEN;
+            default:
+                return Color.MAGENTA;
         }
     }
 
@@ -221,7 +241,6 @@ public class Tetris extends Canvas {
         g.fillRect(x, y, width, width);
         g.drawRect(x, y, width, width);
     }
-
 
     public static void main(String[] args) {
         new Tetris().gameLoop();

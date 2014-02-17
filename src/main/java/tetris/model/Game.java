@@ -14,7 +14,7 @@ public class Game {
     private int freeFallIterations;
     private int totalScore;
 
-    public BoardCell[][] getBoardWithPiece() {
+    public BoardCell[][] getBoardCells() {
         return board.getBoardWithPiece(currentPiece);
     }
 
@@ -35,13 +35,13 @@ public class Game {
     }
 
     public int getLines() {
-        return board.getLines();
+        return board.getFullLines();
     }
 
     public int getLevel() {
-        if ((board.getLines() >= 1) && (board.getLines() <= 90)) {
-            return 1 + ((board.getLines() - 1) / 10);
-        } else if (board.getLines() >= 91) {
+        if ((board.getFullLines() >= 1) && (board.getFullLines() <= 90)) {
+            return 1 + ((board.getFullLines() - 1) / 10);
+        } else if (board.getFullLines() >= 91) {
             return 10;
         } else {
             return 1;
@@ -64,6 +64,10 @@ public class Game {
         return playing;
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
     public boolean isGameOver() {
         return gameOver;
     }
@@ -82,6 +86,7 @@ public class Game {
 
     public void moveDown() {
         if (board.moveDown(currentPiece)) {
+            board.addPieceToBoard(currentPiece);
             if (freeFallIterations == 0) {
                 playing = false;
                 gameOver = true;

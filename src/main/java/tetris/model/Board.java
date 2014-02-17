@@ -3,26 +3,26 @@ package tetris.model;
 import java.awt.Point;
 
 /**
- * 20 [ ][ ][ ][X][X][X][X][ ][ ][ ] 
- * 19 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 18 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 17 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 16 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 15 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 14 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 13 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
+ * 20 [ ][ ][ ][X][X][X][X][ ][ ][ ]
+ * 19 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 18 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 17 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 16 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 15 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 14 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 13 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  * 12 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- * 11 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 9  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 8  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 7  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 6  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
+ * 11 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 10 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 9  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 8  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 7  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 6  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  * 5  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
- * 4  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 3  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 2  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
- * 1  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] 
+ * 4  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 3  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 2  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+ * 1  [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
  *     1  2  3  4  5  6  7  8  9 10
  */
 public class Board {
@@ -37,12 +37,10 @@ public class Board {
 
     private BoardCell[][] board = new BoardCell[WIDTH][HEIGHT];
 
-    private int lines = 0;
+    private int fullLines = 0;
 
     public Board() {
-        for (int x = 0; x < WIDTH; x++) {
-            board[x] = BoardCell.getEmptyArray(20);
-        }
+        board = createEmptyBoard();
     }
 
     public int getWidth() {
@@ -53,8 +51,8 @@ public class Board {
         return HEIGHT;
     }
 
-    public int getLines() {
-        return lines;
+    public int getFullLines() {
+        return fullLines;
     }
 
     public BoardCell getBoardAt(int x, int y) {
@@ -63,7 +61,7 @@ public class Board {
 
     private boolean isRowFull(int y) {
         for (int x = 0; x < WIDTH; x++) {
-            if (board[x][y].isEmpty()) {
+            if (getBoardAt(x, y).isEmpty()) {
                 return false;
             }
         }
@@ -71,25 +69,34 @@ public class Board {
     }
 
     public void removeFullRows() {
-        BoardCell[][] boardX = new BoardCell[WIDTH][HEIGHT];
+        BoardCell[][] boardX = createEmptyBoard();
 
-        for (int x = 0; x < WIDTH; x++) {
-            boardX[x] = BoardCell.getEmptyArray(20);
-        }
-        
         int full = 0;
         for (int y = 0; y < HEIGHT; y++) {
-            if (!isRowFull(y)) {
-                for (int x = 0; x < WIDTH; x++) {
-                    boardX[x][y - full] = board[x][y];
-                }
-            } else {
+            if (isRowFull(y)) {
                 full++;
+            } else {
+                copyRow(boardX, y, y-full);
             }
         }
 
-        lines += full;
+        fullLines += full;
         board = boardX;
+    }
+
+    private void copyRow(BoardCell[][] to, int y, int toy) {
+        for (int x = 0; x < WIDTH; x++) {
+            to[x][toy] = board[x][y];
+        }
+    }
+
+    private BoardCell[][] createEmptyBoard() {
+        BoardCell[][] boardX = new BoardCell[WIDTH][HEIGHT];
+
+        for (int x = 0; x < WIDTH; x++) {
+            boardX[x] = BoardCell.getEmptyArray(HEIGHT);
+        }
+        return boardX;
     }
 
     public boolean rotate(Piece piece) {
@@ -98,21 +105,20 @@ public class Board {
 
     public void moveLeft(Piece piece) {
         if (fit(piece.getPoints(), -1, 0))
-            mv(piece, -1, 0);
+            mv( -1, 0);
     }
 
     public void moveRight(Piece piece) {
         if (fit(piece.getPoints(), 1, 0))
-            mv(piece, 1, 0);
+            mv(1, 0);
     }
 
     public boolean moveDown(Piece piece) {
         if (fit(piece.getPoints(), 0, -1)) {
-            mv(piece, 0, -1);
+            mv(0, -1);
             removeFullRows();
             return false;
         } else {
-            addPieceToBoard(piece);
             return true;
         }
     }
@@ -126,7 +132,7 @@ public class Board {
                 return false;
             }
 
-            if (board[x][y].isEmpty() == false) {
+            if (!board[x][y].isEmpty()) {
                 return false;
             }
         }
@@ -137,17 +143,15 @@ public class Board {
     public BoardCell[][] getBoardWithPiece(Piece piece) {
         BoardCell[][] dest = new BoardCell[WIDTH][HEIGHT];
 
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                dest[x][y] = board[x][y];
-            }
+        for (int y = 0; y < WIDTH; y++) {
+            System.arraycopy(board[y], 0, dest[y], 0, board[0].length);
         }
 
         // add piece
         for (Point point : piece.getPoints()) {
             int x = point.x + pieceCenter.x;
             int y = point.y + pieceCenter.y;
-            dest[x][y] = BoardCell.getFullCell(piece.getType());
+            dest[x][y] = BoardCell.getCell(piece.getType());
         }
 
         return dest;
@@ -162,7 +166,7 @@ public class Board {
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                if (board[x][19 - y].isEmpty()) {
+                if (board[x][HEIGHT - 1 - y].isEmpty()) {
                     out.append("[ ]");
                 } else {
                     out.append("[X]");
@@ -173,15 +177,15 @@ public class Board {
         return out.toString();
     }
 
-    private void mv(Piece piece, int moveX, int moveY) {
+    private void mv(int moveX, int moveY) {
         pieceCenter = new Point(pieceCenter.x + moveX, pieceCenter.y + moveY);
     }
 
-    private void addPieceToBoard(Piece piece) {
+    public void addPieceToBoard(Piece piece) {
         for (Point point : piece.getPoints()) {
             int x = pieceCenter.x + point.x;
             int y = pieceCenter.y + point.y;
-            board[x][y] = BoardCell.getFullCell(piece.getType());
+            board[x][y] = BoardCell.getCell(piece.getType());
         }
         resetPieceCenter();
     }

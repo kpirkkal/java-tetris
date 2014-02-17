@@ -22,7 +22,7 @@ public class BoardCell {
         return pieceType;
     }
 
-    public static BoardCell getFullCell(PieceType pieceType) {
+    public static BoardCell getCell(PieceType pieceType) {
         return new BoardCell(pieceType);
     }
 

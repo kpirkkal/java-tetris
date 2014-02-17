@@ -15,6 +15,7 @@ public class KeyboardInput implements KeyListener {
         currentStates.put(KeyEvent.VK_UP, Boolean.FALSE);
         currentStates.put(KeyEvent.VK_SPACE, Boolean.FALSE);
         currentStates.put(KeyEvent.VK_F2, Boolean.FALSE);
+        currentStates.put(KeyEvent.VK_F1, Boolean.FALSE);
     }
 
     public boolean left() {
@@ -33,6 +34,10 @@ public class KeyboardInput implements KeyListener {
         return keyDown(KeyEvent.VK_UP);
     }
 
+    public boolean pauseGame() {
+        return keyDown(KeyEvent.VK_F1);
+    }
+
     public boolean newGame() {
         return keyDown(KeyEvent.VK_F2);
     }
@@ -42,10 +47,9 @@ public class KeyboardInput implements KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        if (currentStates.containsKey(keyCode)) {
-            currentStates.put(keyCode, Boolean.TRUE);
+    public void keyPressed(KeyEvent keyEvent) {
+        if (currentStates.containsKey(keyEvent.getKeyCode())) {
+            currentStates.put(keyEvent.getKeyCode(), Boolean.TRUE);
         }
     }
 
