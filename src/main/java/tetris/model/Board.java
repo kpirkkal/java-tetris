@@ -35,6 +35,8 @@ public class Board {
 
     private Point pieceCenter = new Point(DROP_X, DROP_Y);
 
+    private Piece currentPiece;
+
     private BoardCell[][] board = new BoardCell[WIDTH][HEIGHT];
 
     private int fullLines = 0;
@@ -99,27 +101,32 @@ public class Board {
         return boardX;
     }
 
-    public boolean rotate(Piece piece) {
-        return fit(piece.getPoints(), 0, 0);
+    public void rotate() {
+        Piece rot = currentPiece.rotate();
+        if (fit(rot.getPoints(), 0, 0)) {
+
+            currentPiece = rot;
+        }
     }
 
-    public void moveLeft(Piece piece) {
-        if (fit(piece.getPoints(), -1, 0))
+    public void moveLeft() {
+        if (fit(currentPiece.getPoints(), -1, 0))
             mv( -1, 0);
     }
 
-    public void moveRight(Piece piece) {
-        if (fit(piece.getPoints(), 1, 0))
+    public void moveRight() {
+        if (fit(currentPiece.getPoints(), 1, 0))
             mv(1, 0);
     }
 
-    public boolean moveDown(Piece piece) {
-        if (fit(piece.getPoints(), 0, -1)) {
+    public boolean canCurrentPieceMoveDown() {
+        return fit(currentPiece.getPoints(), 0, -1);
+    }
+
+    public void moveDown() {
+        if (canCurrentPieceMoveDown()) {
             mv(0, -1);
             removeFullRows();
-            return false;
-        } else {
-            return true;
         }
     }
 
@@ -140,7 +147,7 @@ public class Board {
         return true;
     }
 
-    public BoardCell[][] getBoardWithPiece(Piece piece) {
+    public BoardCell[][] getBoardWithPiece() {
         BoardCell[][] dest = new BoardCell[WIDTH][HEIGHT];
 
         for (int y = 0; y < WIDTH; y++) {
@@ -148,45 +155,32 @@ public class Board {
         }
 
         // add piece
-        for (Point point : piece.getPoints()) {
+        for (Point point : currentPiece.getPoints()) {
             int x = point.x + pieceCenter.x;
             int y = point.y + pieceCenter.y;
-            dest[x][y] = BoardCell.getCell(piece.getType());
+            dest[x][y] = BoardCell.getCell(currentPiece.getType());
         }
 
         return dest;
     }
 
-    /**
-     * "Draw" board.
-     */
-    @Override
-    public String toString() {
-        StringBuilder out = new StringBuilder();
-
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                if (board[x][HEIGHT - 1 - y].isEmpty()) {
-                    out.append("[ ]");
-                } else {
-                    out.append("[X]");
-                }
-            }
-            out.append("\n");
+    private void addPieceToBoard() {
+        for (Point point : currentPiece.getPoints()) {
+            int x = pieceCenter.x + point.x;
+            int y = pieceCenter.y + point.y;
+            board[x][y] = BoardCell.getCell(currentPiece.getType());
         }
-        return out.toString();
     }
 
     private void mv(int moveX, int moveY) {
         pieceCenter = new Point(pieceCenter.x + moveX, pieceCenter.y + moveY);
     }
 
-    public void addPieceToBoard(Piece piece) {
-        for (Point point : piece.getPoints()) {
-            int x = pieceCenter.x + point.x;
-            int y = pieceCenter.y + point.y;
-            board[x][y] = BoardCell.getCell(piece.getType());
+    public void setCurrentPiece(Piece piece) {
+        if (currentPiece != null) {
+            addPieceToBoard();
         }
+        currentPiece = piece;
         resetPieceCenter();
     }
 

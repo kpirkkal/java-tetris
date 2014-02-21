@@ -2,8 +2,7 @@ package tetris.model;
 
 public class Game {
 
-    private final Board board = new Board();
-    private Piece currentPiece;
+    private final Board board;
     private Piece nextPiece;
 
     private boolean playing = false;
@@ -14,8 +13,12 @@ public class Game {
     private int freeFallIterations;
     private int totalScore;
 
+    public Game() {
+        board = new Board();
+    }
+
     public BoardCell[][] getBoardCells() {
-        return board.getBoardWithPiece(currentPiece);
+        return board.getBoardWithPiece();
     }
 
     public Piece getNextPiece() {
@@ -51,8 +54,8 @@ public class Game {
     public void startGame() {
         paused = false;
         dropping = false;
-        currentPiece = Piece.getRandomPiece();
         nextPiece = Piece.getRandomPiece();
+        board.setCurrentPiece(Piece.getRandomPiece());
         playing = true;
     }
 
@@ -73,36 +76,34 @@ public class Game {
     }
 
     public void moveLeft() {
-        board.moveLeft(currentPiece);
+        board.moveLeft();
     }
 
     public void moveRight() {
-        board.moveRight(currentPiece);
+        board.moveRight();
     }
 
     public void moveDown() {
-        if (board.moveDown(currentPiece)) {
-            board.addPieceToBoard(currentPiece);
+        if (!board.canCurrentPieceMoveDown()) {
+
             if (freeFallIterations == 0) {
                 playing = false;
                 gameOver = true;
             } else {
                 dropping = false;
-                currentPiece = nextPiece;
+                board.setCurrentPiece(nextPiece);
                 nextPiece = Piece.getRandomPiece();
                 totalScore += getScore();
                 freeFallIterations = 0;
             }
         } else {
+            board.moveDown();
             freeFallIterations++;
         }
     }
 
     public void rotate() {
-        Piece rot = currentPiece.rotate();
-        if (board.rotate(rot)) {
-            currentPiece = rot;
-        }
+        board.rotate();
     }
 
     public void drop() {

@@ -1,5 +1,6 @@
 package tetris.model;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import org.junit.Test;
@@ -20,4 +21,33 @@ public class BoardTest {
         }
 
     }
+
+    @Test
+    public void moveDown() {
+
+        final Board board = new Board();
+        board.setCurrentPiece(Piece.getPiece(PieceType.O));
+        assertTrue(board.canCurrentPieceMoveDown());
+
+        // move current piece at bottom of the board
+        repeat(new Repeater() {
+            @Override
+            public void doAction() {
+                board.moveDown();
+            }
+        }, 18);
+
+        assertFalse(board.canCurrentPieceMoveDown());
+    }
+
+    private interface Repeater {
+        void doAction();
+    }
+
+    private void repeat(Repeater repeat, int count) {
+        for (int i=0; i<count; i++) {
+            repeat.doAction();
+        }
+    }
+
 }

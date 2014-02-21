@@ -1,5 +1,6 @@
 package tetris.model;
 
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.assertEquals;
 
@@ -24,6 +25,11 @@ public class PieceTest {
             }
         }
         return count == 1;
+    }
+
+    @Test
+    public void getRandomPieceReturnsValue() {
+        assertNotNull(Piece.getRandomPiece());
     }
 
     @Test
@@ -252,7 +258,6 @@ public class PieceTest {
         points[3] = new Point(0, -1);
         piece = piece.rotate();
         assertPoints(points, piece);
-
     }
 
 }
