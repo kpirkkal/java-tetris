@@ -110,13 +110,15 @@ public class Board {
     }
 
     public void moveLeft() {
-        if (fit(currentPiece.getPoints(), -1, 0))
+        if (fit(currentPiece.getPoints(), -1, 0)) {
             mv( -1, 0);
+        }
     }
 
     public void moveRight() {
-        if (fit(currentPiece.getPoints(), 1, 0))
+        if (fit(currentPiece.getPoints(), 1, 0)) {
             mv(1, 0);
+        }
     }
 
     public boolean canCurrentPieceMoveDown() {

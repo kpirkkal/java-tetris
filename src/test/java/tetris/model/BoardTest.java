@@ -19,7 +19,6 @@ public class BoardTest {
                 assertTrue(board.getBoardAt(x, y).isEmpty());
             }
         }
-
     }
 
     @Test
@@ -45,7 +44,7 @@ public class BoardTest {
     }
 
     private void repeat(Repeater repeat, int count) {
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             repeat.doAction();
         }
     }
