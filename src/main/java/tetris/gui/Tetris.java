@@ -74,10 +74,10 @@ public class Tetris extends Canvas {
                 if (keyboard.pauseGame()) {
                     game.pauseGame();
                 }
-                try {
-                    Thread.sleep(20);
-                } catch (Exception e) { }
             }
+            try {
+                Thread.sleep(20);
+            } catch (Exception e) { }
             draw();
         }
     }
