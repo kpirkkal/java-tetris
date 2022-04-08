@@ -43,7 +43,7 @@ public class Game {
 
     public int getLevel() {
         if ((board.getFullLines() >= 1) && (board.getFullLines() <= 90)) {
-            return 1 + ((board.getFullLines() - 1) / 10);
+            return 3 + ((board.getFullLines() - 1) / 10);
         } else if (board.getFullLines() >= 91) {
             return 10;
         } else {
